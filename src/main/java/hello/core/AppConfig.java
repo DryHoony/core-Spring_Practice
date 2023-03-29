@@ -1,7 +1,6 @@
 package hello.core;
 
 import hello.core.discount.DiscountPolicy;
-import hello.core.discount.FixDiscountPolicy;
 import hello.core.discount.RateDiscountPolicy;
 import hello.core.member.MemberRepository;
 import hello.core.member.MemberService;
@@ -21,11 +20,13 @@ public class AppConfig { // 프로그램 제어의 흐름을 담당 >> IoC 컨�
 
     @Bean
     public MemberService memberService() {
+        System.out.println("call AppConfig.memberService"); // 호출 로그를 남겨 실험
         return new MemberServiceImpl(memberRepository());
     }
 
     @Bean
     public OrderService orderService() {
+        System.out.println("call AppConfig.orderService");
         return new OrderServiceImpl(
                 memberRepository(),
                 discountPolicy());
@@ -33,8 +34,11 @@ public class AppConfig { // 프로그램 제어의 흐름을 담당 >> IoC 컨�
 
     @Bean
     public MemberRepository memberRepository(){
+        System.out.println("call AppConfig.memberRepository"); // 3번 호출되지 않게 스프링이 관리해줌 (바이트코드 조작하는 라이브러리 사용해서)
         return new MemoryMemberRepository();
     }
+    // new 로 되어있지만 매번 새롭게 생성하는 것이 아니라 싱글톤으로 스프링이 관리해줌(으로 추정 ConfigurationSingletonTest 여기서 확인해 보자)
+
 
     @Bean
     public DiscountPolicy discountPolicy() { // 할인정책을 변경할려면 여기만 수정하면 된다

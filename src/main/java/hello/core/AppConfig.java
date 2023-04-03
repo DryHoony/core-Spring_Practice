@@ -27,9 +27,8 @@ public class AppConfig { // 프로그램 제어의 흐름을 담당 >> IoC 컨�
     @Bean
     public OrderService orderService() {
         System.out.println("call AppConfig.orderService");
-        return new OrderServiceImpl(
-                memberRepository(),
-                discountPolicy());
+        return new OrderServiceImpl(memberRepository(), discountPolicy()); // 잠시 주석처리
+//        return null;
     }
 
     @Bean
